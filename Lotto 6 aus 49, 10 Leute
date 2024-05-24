@@ -1,0 +1,53 @@
+import random
+
+def generate_lottery_numbers():
+    # Generiert eine Liste von 6 einzigartigen Zufallszahlen zwischen 1 und 49
+    return random.sample(range(1, 50), 6)
+
+def generate_super_number():
+    # Generiert eine Zufallszahl zwischen 0 und 9 als Superzahl
+    return random.randint(0, 9)
+
+# Liste von User-Zahlen und festen Superzahlen für 10 Personen
+persons = [
+    {"numbers": [1, 2, 3, 4, 5, 6], "super_number": 0},
+    {"numbers": [7, 8, 9, 10, 11, 12], "super_number": 1},
+    {"numbers": [13, 14, 15, 16, 17, 18], "super_number": 2},
+    {"numbers": [19, 20, 21, 22, 23, 24], "super_number": 3},
+    {"numbers": [25, 26, 27, 28, 29, 30], "super_number": 4},
+    {"numbers": [31, 32, 33, 34, 35, 36], "super_number": 5},
+    {"numbers": [37, 38, 39, 40, 41, 42], "super_number": 6},
+    {"numbers": [43, 44, 45, 46, 47, 48], "super_number": 7},
+    {"numbers": [49, 10, 11, 12, 13, 14], "super_number": 8},
+    {"numbers": [15, 16, 17, 18, 19, 20], "super_number": 9}
+]
+
+# Anzahl der Personen
+num_persons = len(persons)
+
+# Initialisieren der Anzahl der Versuche für jede Person
+attempts = [0] * num_persons
+
+# Flag, um zu überprüfen, ob alle Personen gewonnen haben
+all_won = False
+
+while not all_won:
+    all_won = True  # Annahme, dass alle gewonnen haben, bis das Gegenteil bewiesen ist
+    for i, person in enumerate(persons):
+        if person["numbers"] is None:  # Person hat bereits gewonnen
+            continue
+        # Generiere die Zufallszahlen und die Superzahl für die aktuelle Person
+        random_numbers = generate_lottery_numbers()
+        random_super_number = generate_super_number()
+        attempts[i] += 1
+        # Überprüfe, ob die Zufallszahlen und die Superzahl mit den User-Zahlen und der User-Superzahl übereinstimmen
+        if set(random_numbers) == set(person["numbers"]) and random_super_number == person["super_number"]:
+            # Wenn ja, markiere die Person als gewonnen und setze die Zufallszahlen und die Superzahl auf None
+            person["numbers"] = None
+            person["super_number"] = None
+        else:
+            all_won = False
+        # Ausgabe der aktuellen Versuche für die Person
+        print(f"Person {i+1}: Versuch {attempts[i]} - Zahlen: {random_numbers}, Superzahl: {random_super_number}")
+
+print("Alle Personen haben gewonnen!")
